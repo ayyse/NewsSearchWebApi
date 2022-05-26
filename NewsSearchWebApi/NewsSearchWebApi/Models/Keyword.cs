@@ -6,7 +6,5 @@ namespace NewsSearchWebApi.Models
     {
         public int Id { get; set; }
         public string Word { get; set; }
-
-        public virtual List<News> News { get; set; }
     }
 }

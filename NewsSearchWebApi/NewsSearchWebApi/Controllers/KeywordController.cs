@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NewsSearchWebApi.Interfaces;
 using NewsSearchWebApi.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,51 +12,43 @@ namespace NewsSearchWebApi.Controllers
     public class KeywordController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public KeywordController(AppDbContext context)
+        private readonly IKeywordService _keywordService;
+        public KeywordController(AppDbContext context, IKeywordService keywordService)
         {
             _context = context;
+            _keywordService = keywordService;
         }
 
         [HttpGet]
         public List<Keyword> GetAllKeywords()
         {
-            var list = _context.Keywords.ToList();
-            return list;
+            var keywordList = _keywordService.GetAllKeywords();
+            return keywordList;
         }
 
         [HttpPost]
         public void CreateKeyword(Keyword item)
         {
-            var x = GetAllKeywords().Where(x => x.Word == item.Word).ToList();
-
-            if (x.Count == 0)
-            {
-                _context.Keywords.Add(item);
-                _context.SaveChanges();
-            }
+            _keywordService.CreateKeyword(item);
         }
 
         [HttpDelete("{id}")]
         public void DeleteKeyword(int id)
         {
-            var deletedKeyword = _context.Keywords.Where(x => x.Id == id).FirstOrDefault();
-            _context.Keywords.Remove(deletedKeyword);
-            _context.SaveChanges();
+            _keywordService.DeleteKeyword(id);
         }
 
         [HttpPut("{id}")]
         public void UpdateKeyword(int id)
         {
-            var updatedKeyword = _context.Keywords.Where(x => x.Id == id).FirstOrDefault();
-            _context.Keywords.Update(updatedKeyword);
-            _context.SaveChanges();
+            _keywordService.UpdateKeyword(id);
         }
 
         [HttpGet("{id}")]
         public Keyword GetKeywordById(int id)
         {
-            var getItem = _context.Keywords.Where(x => x.Id == id).FirstOrDefault();
-            return getItem;
+            var keyword  = _keywordService.GetKeywordById(id);
+            return keyword;
         }
     }
 }

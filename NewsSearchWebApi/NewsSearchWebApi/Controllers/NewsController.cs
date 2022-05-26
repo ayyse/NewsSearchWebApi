@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using NewsAPI;
+using NewsAPI.Constants;
+using NewsAPI.Models;
+using NewsSearchWebApi.Interfaces;
 using NewsSearchWebApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,47 +15,39 @@ namespace NewsSearchWebApi.Controllers
     public class NewsController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public NewsController(AppDbContext context)
+        private readonly IKeywordService _keywordService;
+        private readonly INewsService _newsService;
+        public NewsController(AppDbContext context, INewsService newsService, IKeywordService keywordService)
         {
             _context = context;
+            _keywordService = keywordService;
+            _newsService = newsService;
         }
 
         [HttpPost]
         public void CreateNews(News item)
         {
-            var x = GetAllNews().Where(x => x.Url == item.Url).ToList();
-
-            if (x.Count == 0)
-            {
-                var lastItem = GetAllNews().LastOrDefault();
-                if (lastItem.PublishedAt < item.PublishedAt)
-                {
-                    _context.News.Add(item);
-                    _context.SaveChanges();
-                }
-            }
+            _newsService.CreateNews(item);
         }
 
         [HttpDelete("{id}")]
         public void DeleteNews(int id)
         {
-            var deletedNew = _context.News.Where(x => x.Id == id).FirstOrDefault();
-            _context.News.Remove(deletedNew);
-            _context.SaveChanges();
+            _newsService.DeleteNews(id);
         }
 
         [HttpGet]
         public List<News> GetAllNews()
         {
-            var list = _context.News.ToList();
-            return list;
+            var newsList = _newsService.GetAllNews();
+            return newsList;
         }
 
         [HttpGet("{id}")]
         public News GetNewsById(int id)
         {
-            var getItem = _context.News.Where(x => x.Id == id).FirstOrDefault();
-            return getItem;
+            var news = _newsService.GetNewsById(id);
+            return news;
         }
     }
 }

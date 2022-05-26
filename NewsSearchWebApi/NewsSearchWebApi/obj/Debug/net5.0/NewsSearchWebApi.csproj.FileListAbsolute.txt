@@ -56,3 +56,4 @@ C:\Users\ayse\Documents\GitHub\NewsSearchWebApi\NewsSearchWebApi\NewsSearchWebAp
 C:\Users\ayse\Documents\GitHub\NewsSearchWebApi\NewsSearchWebApi\NewsSearchWebApi\obj\Debug\net5.0\NewsSearchWebApi.pdb
 C:\Users\ayse\Documents\GitHub\NewsSearchWebApi\NewsSearchWebApi\NewsSearchWebApi\obj\Debug\net5.0\NewsSearchWebApi.genruntimeconfig.cache
 C:\Users\ayse\Documents\GitHub\NewsSearchWebApi\NewsSearchWebApi\NewsSearchWebApi\obj\Debug\net5.0\ref\NewsSearchWebApi.dll
+C:\Users\ayse\Documents\GitHub\NewsSearchWebApi\NewsSearchWebApi\NewsSearchWebApi\bin\Debug\net5.0\NewsAPI.dll
